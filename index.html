@@ -7,11 +7,17 @@
 
     <body>
         <a-scene>
-            
-            <a-entity gltf-model="url(Cubo.gltf)" position="0 0 -1" color="red"></a-entity>
+
+            <a-marker preset="hiro">
+                <a-entity gltf-model="url(Cubo.gltf)" color="red">
+                    <a-animation attribute="rotation" to="0 360 0" dur="2000" easing="linear" repeat="indefinite"></a-animation>
+                    <a-mouse-cursor></a-mouse-cursor>
+                </a-entity>
+            </a-marker>
             <a-entity camera></a-entity>
 
         </a-scene>
     </body>
 
 </html>
+
