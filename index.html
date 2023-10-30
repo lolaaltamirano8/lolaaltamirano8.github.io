@@ -6,12 +6,15 @@
     </head>
 
     <body>
-        <a-scene>
+        <a-scene arjs="debugUIEnabled : false">
 
-            <a-marker preset="hiro">
-                <a-entity gltf-model="url(CuboVerde.gltf)"></a-entity>
-            </a-marker>
-            <!–a-entity camera–><!–/a-entity–>
+            <a-assets>
+                <a-asset-item id="model" src="CuboVerde.gltf"></a-asset-item>
+            </a-assets>
+ 
+            <a-entity camera ar-hit-testing-ui>
+                <a-entity gltf-model="#model"></a-entity>
+            </a-entity>
 
         </a-scene>
 
