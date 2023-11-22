@@ -131,25 +131,20 @@ loader.load(
 
  // Event listener for the "select" event (user pressing the screen)
 session.addEventListener("select", (event) => {
-  console.log("Select event triggered.");
   if (press && reticle) {
-    const hitTestResults = event.frame.getHitTestResults(hitTestSource);
+    const hitTestResults = frame.getHitTestResults(hitTestSource);
     if (hitTestResults.length > 0) {
       const hitPose = hitTestResults[0].getPose(referenceSpace);
-      const pressPosition = new THREE.Vector3().fromArray(hitPose.transform.position);
-      
-      console.log("Press position:", pressPosition);
-
-      // Set the position of the press model to the hit position
-      press.position.copy(pressPosition);
-      
-      // Clone and add the press model to the scene
-      const clone = press.clone();
-      scene.add(clone);
+      const pressClone = press.clone();
+      pressClone.position.set(
+        hitPose.transform.position.x,
+        hitPose.transform.position.y,
+        hitPose.transform.position.z
+      );
+      scene.add(pressClone);
     }
   }
 });
-
 
 }
 </script>
