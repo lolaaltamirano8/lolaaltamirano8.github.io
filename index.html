@@ -128,13 +128,17 @@ async function activateXR() {
   session.requestAnimationFrame(onXRFrame);
 
   // Event listener for the "select" event (user pressing the screen)
-  session.addEventListener("select", (event) => {
-    if (press) {
-      const clone = press.clone();
-      clone.position.copy(reticle.position);
-      scene.add(clone);
-    }
-  });
+session.addEventListener("select", (event) => {
+  if (press && reticle) {
+    console.log("Reticle position:", reticle.position);
+    console.log("Press position:", press.position);
+
+    const clone = press.clone();
+    clone.position.copy(reticle.position);
+    scene.add(clone);
+  }
+});
+
 }
 </script>
 
