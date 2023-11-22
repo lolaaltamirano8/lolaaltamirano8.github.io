@@ -1,21 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>Hello WebXR!</title>
 
   <!-- three.js -->
   <script src="https://unpkg.com/three@0.126.0/build/three.js"></script>
   <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
-  
-  
 <body>
 
 <!-- Starting an immersive WebXR session requires user interaction.
     We start this one with a simple button. -->
 <button onclick="activateXR()">Start Hello WebXR</button>
+
 <script>
 async function activateXR() {
   // Add a canvas element and initialize a WebGL context that is compatible with WebXR.
@@ -71,28 +70,23 @@ async function activateXR() {
   });
 
   // Load press model (replace URL_DE_TU_MODELO.gltf with your model URL)
-let press;
-loader.load(
-  "https://lolaaltamirano8.github.io/lolaaltamirano8.github.io/prensa_husillo.gltf",
-  function(gltf) {
-    press = gltf.scene;
-    console.log("Modelo cargado con éxito:", press);
-  },
-  undefined,
-  function(error) {
-    console.error("Error al cargar el modelo:", error);
-  }
-);
-
-
+  let press;
+  loader.load(
+    "https://raw.githubusercontent.com/lolaaltamirano8/lolaaltamirano8.github.io/main/prensa_husillo.gltf",
+    function(gltf) {
+      press = gltf.scene;
+      console.log("Modelo cargado con éxito:", press);
+    },
+    undefined,
+    function(error) {
+      console.error("Error al cargar el modelo:", error);
+    }
+  );
 
   // Create a render loop that allows us to draw on the AR view.
   const onXRFrame = (time, frame) => {
     // Queue up the next draw request.
     session.requestAnimationFrame(onXRFrame);
-
-    // Bind the graphics framebuffer to the baseLayer's framebuffer
-    gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer)
 
     // Retrieve the pose of the device.
     // XRFrame.getViewerPose can return null while the session attempts to establish tracking.
@@ -102,10 +96,13 @@ loader.load(
       const view = pose.views[0];
 
       const viewport = session.renderState.baseLayer.getViewport(view);
-      renderer.setSize(viewport.width, viewport.height)
+      renderer.setSize(viewport.width, viewport.height);
+
+      // Bind the graphics framebuffer to the baseLayer's framebuffer
+      gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
 
       // Use the view's transform matrix and projection matrix to configure the THREE.camera.
-      camera.matrix.fromArray(view.transform.matrix)
+      camera.matrix.fromArray(view.transform.matrix);
       camera.projectionMatrix.fromArray(view.projectionMatrix);
       camera.updateMatrixWorld(true);
 
@@ -114,14 +111,20 @@ loader.load(
       if (hitTestResults.length > 0 && reticle) {
         const hitPose = hitTestResults[0].getPose(referenceSpace);
         reticle.visible = true;
-        reticle.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z)
+        reticle.position.set(
+          hitPose.transform.position.x,
+          hitPose.transform.position.y,
+          hitPose.transform.position.z
+        );
         reticle.updateMatrixWorld(true);
       }
 
       // Render the scene with THREE.WebGLRenderer.
-      renderer.render(scene, camera)
+      renderer.render(scene, camera);
     }
-  }
+  };
+
+  // Initial call to start the rendering loop
   session.requestAnimationFrame(onXRFrame);
 
   // Event listener for the "select" event (user pressing the screen)
@@ -134,5 +137,6 @@ loader.load(
   });
 }
 </script>
+
 </body>
 </html>
