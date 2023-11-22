@@ -76,6 +76,12 @@ async function activateXR() {
   let flower;
   loader.load("https://raw.githubusercontent.com/lolaaltamirano8/lolaaltamirano8.github.io/main/prensa_husillo.gltf", function(gltf) {
     flower = gltf.scene;
+
+    // Escala del modelo (ajusta según sea necesario)
+  flower.scale.set(0.1, 0.1, 0.1);
+
+  // Agrega el modelo a la escena
+  scene.add(flower);
   });
 
   // Create a render loop that allows us to draw on the AR view.
