@@ -131,11 +131,17 @@ async function activateXR() {
 session.addEventListener("select", (event) => {
   console.log("Select event triggered.");
   if (press && reticle) {
-    console.log("Reticle position:", reticle.position);
-    console.log("Press position:", press.position);
+    // Get the world position of the reticle
+    const reticleWorldPos = new THREE.Vector3();
+    reticle.getWorldPosition(reticleWorldPos);
 
+    console.log("Reticle world position:", reticleWorldPos);
+
+    // Set the position of the press model to the reticle's world position
+    press.position.copy(reticleWorldPos);
+    
+    // Clone and add the press model to the scene
     const clone = press.clone();
-    clone.position.copy(reticle.position);
     scene.add(clone);
   }
 });
