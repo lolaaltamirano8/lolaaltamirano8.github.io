@@ -71,18 +71,20 @@ async function activateXR() {
   });
 
   // Load press model (replace URL_DE_TU_MODELO.gltf with your model URL)
-  let press;
-  loader.load(
-    "https://raw.githubusercontent.com/lolaaltamirano8/lolaaltamirano8.github.io/main/prensa_husillo.gltf",
-    function(gltf) {
-      press = gltf.scene;
-      console.log("Modelo cargado con éxito:", press);
-    },
-    undefined,
-    function(error) {
-      console.error("Error al cargar el modelo:", error);
-    }
-  );
+let press;
+loader.load(
+  "https://raw.githubusercontent.com/lolaaltamirano8/lolaaltamirano8.github.io/main/prensa_husillo.gltf",
+  function(gltf) {
+    press = gltf.scene;
+    console.log("Modelo cargado con éxito:", press);
+  },
+  undefined,
+  function(error) {
+    console.error("Error al cargar el modelo:", error);
+  }
+);
+
+
 
   // Create a render loop that allows us to draw on the AR view.
   const onXRFrame = (time, frame) => {
@@ -124,20 +126,13 @@ async function activateXR() {
 
   // Event listener for the "select" event (user pressing the screen)
   session.addEventListener("select", (event) => {
-    alert("¡Selección detectada!");
     if (press) {
-      alert("Creando clon del modelo...");
       const clone = press.clone();
       clone.position.copy(reticle.position);
       scene.add(clone);
-
-      // Después de agregar el clon, intenta quitar el modelo original
-      // para evitar posibles problemas de superposición.
-      press.visible = false;
     }
   });
 }
 </script>
 </body>
 </html>
-
