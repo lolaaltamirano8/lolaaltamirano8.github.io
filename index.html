@@ -129,6 +129,7 @@ async function activateXR() {
 
   // Event listener for the "select" event (user pressing the screen)
 session.addEventListener("select", (event) => {
+  console.log("Select event triggered.");
   if (press && reticle) {
     console.log("Reticle position:", reticle.position);
     console.log("Press position:", press.position);
@@ -138,6 +139,7 @@ session.addEventListener("select", (event) => {
     scene.add(clone);
   }
 });
+
 
 }
 </script>
