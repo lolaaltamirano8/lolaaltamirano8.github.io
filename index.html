@@ -79,10 +79,14 @@ async function activateXR() {
           const hitTestSource = frame.trackableSources[0]; // Obtener la fuente de la prueba de colisión
           const hitTestResults = frame.getHitTestResults(hitTestSource);
 
+          console.log('Hit test results:', hitTestResults);
+
           if (hitTestResults.length > 0) {
             const hitPose = hitTestResults[0].getPose(viewerPose.referenceSpace);
             reticle.visible = true;
             reticle.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
+
+            console.log('Reticle position:', reticle.position.x, reticle.position.y, reticle.position.z);
           } else {
             reticle.visible = false;
           }
@@ -108,4 +112,5 @@ async function activateXR() {
 </script>
 </body>
 </html>
+
 
