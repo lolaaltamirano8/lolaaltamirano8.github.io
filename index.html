@@ -70,10 +70,10 @@ async function activateXR() {
     scene.add(reticle);
   });
 
-  // Load sunflower model
-  let flower;
-  loader.load("https://immersive-web.github.io/webxr-samples/media/gltf/sunflower/sunflower.gltf", function(gltf) {
-    flower = gltf.scene;
+  // Load press model (replace URL_DE_TU_MODELO.gltf with your model URL)
+  let press;
+  loader.load("prensa_husillo.gltf", function(gltf) {
+    press = gltf.scene;
   });
 
   // Create a render loop that allows us to draw on the AR view.
@@ -116,8 +116,8 @@ async function activateXR() {
 
   // Event listener for the "select" event (user pressing the screen)
   session.addEventListener("select", (event) => {
-    if (flower) {
-      const clone = flower.clone();
+    if (press) {
+      const clone = press.clone();
       clone.position.copy(reticle.position);
       scene.add(clone);
     }
@@ -126,3 +126,4 @@ async function activateXR() {
 </script>
 </body>
 </html>
+
