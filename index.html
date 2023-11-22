@@ -130,9 +130,14 @@ async function activateXR() {
       const clone = press.clone();
       clone.position.copy(reticle.position);
       scene.add(clone);
+
+      // Después de agregar el clon, intenta quitar el modelo original
+      // para evitar posibles problemas de superposición.
+      press.visible = false;
     }
   });
 }
 </script>
 </body>
 </html>
+
