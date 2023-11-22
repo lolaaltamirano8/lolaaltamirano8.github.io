@@ -70,11 +70,12 @@ async function activateXR() {
     scene.add(reticle);
   });
 
-  // Load press model (replace URL_DE_TU_MODELO.gltf with your model URL)
-  let press;
-  loader.load("https://raw.githubusercontent.com/lolaaltamirano8/lolaaltamirano8.github.io/main/prensa_husillo.gltf", function(gltf) {
-    press = gltf.scene;
-  });
+  // Load press model
+let press;
+loader.load("https://raw.githubusercontent.com/lolaaltamirano8/lolaaltamirano8.github.io/main/prensa_husillo.gltf", function(gltf) {
+  press = gltf.scene;
+});
+
 
   // Create a render loop that allows us to draw on the AR view.
   const onXRFrame = (time, frame) => {
