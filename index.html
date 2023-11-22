@@ -7,6 +7,7 @@
 
   <!-- three.js -->
   <script src="https://unpkg.com/three@0.126.0/build/three.js"></script>
+  <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
   
 <body>
@@ -35,6 +36,26 @@ async function activateXR() {
       baseLayer: new XRWebGLLayer(session, gl)
     });
 
+    // Añadir luz direccional
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
+    directionalLight.position.set(10, 15, 10);
+    scene.add(directionalLight);
+
+    // Cargar reticle
+    const loader = new THREE.GLTFLoader();
+    let reticle;
+    loader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function(gltf) {
+      reticle = gltf.scene;
+      reticle.visible = false;
+      scene.add(reticle);
+    });
+
+    // Cargar modelo 3D del sunflower
+    let flower;
+    loader.load("https://immersive-web.github.io/webxr-samples/media/gltf/sunflower/sunflower.gltf", function(gltf) {
+      flower = gltf.scene;
+    });
+
     // Función de fotograma XR
     const onXRFrame = (time, frame) => {
       session.requestAnimationFrame(onXRFrame);
@@ -52,11 +73,34 @@ async function activateXR() {
 
         // Renderizar la escena
         renderer.render(scene, camera);
+
+        // Renderizar el reticle
+        if (reticle) {
+          const hitTestSource = frame.trackableSources[0]; // Obtener la fuente de la prueba de colisión
+          const hitTestResults = frame.getHitTestResults(hitTestSource);
+
+          if (hitTestResults.length > 0) {
+            const hitPose = hitTestResults[0].getPose(viewerPose.referenceSpace);
+            reticle.visible = true;
+            reticle.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
+          } else {
+            reticle.visible = false;
+          }
+        }
       }
     };
 
     // Iniciar el bucle de fotogramas XR
     session.requestAnimationFrame(onXRFrame);
+
+    // Evento de selección para agregar el modelo 3D
+    session.addEventListener("select", (event) => {
+      if (flower && reticle) {
+        const clone = flower.clone();
+        clone.position.copy(reticle.position);
+        scene.add(clone);
+      }
+    });
   } catch (error) {
     console.error('Error al iniciar la sesión XR:', error);
   }
