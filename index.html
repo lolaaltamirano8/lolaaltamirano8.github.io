@@ -125,7 +125,7 @@
 
       // Event listener for the "select" event (user pressing the screen)
       session.addEventListener("select", (event) => {
-        if (flower && !modelPlaced = true) { // Verificar si el modelo existe y aún no se ha colocado
+        if (flower && !modelPlaced == true) { // Verificar si el modelo existe y aún no se ha colocado
           const clone = flower.clone();
           clone.position.copy(reticle.position);
           scene.add(clone);
